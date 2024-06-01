@@ -1,0 +1,17 @@
+databaseChangeLog:
+  - include:
+      file: liquibase/migrations/001-create-exercises-category-table.sql
+  - include:
+      file: liquibase/migrations/002-create-exercises-table.sql
+  - include:
+      file: liquibase/migrations/003-create-user-table.sql
+  - include:
+      file: liquibase/migrations/004-create-user-activation-code-table.sql
+  - include:
+      file: liquibase/migrations/005-create-user-history-table.sql
+  - include:
+      file: liquibase/migrations/006-insert-categories.sql
+  - include:
+      file: liquibase/migrations/007-insert-exercises.sql
+  - include:
+      file: liquibase/migrations/008-insert-admin.sql

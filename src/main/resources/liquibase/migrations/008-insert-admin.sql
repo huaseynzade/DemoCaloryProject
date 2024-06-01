@@ -1,0 +1,2 @@
+insert into users (height, is_activated, weight, email, gender, password, role, username, last_check_time)
+VALUES (1.72,true,55,'oyunefsanesi420@gmail.com','MALE','$2a$10$NBxM13EdSSI9vOR.P0EFQObWD2EmylmJizyO0qyQi8SCiu7NMjHtu','ADMIN','huaseynzade',CURRENT_DATE)
