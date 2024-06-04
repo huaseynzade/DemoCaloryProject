@@ -10,6 +10,7 @@ import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractAuthenticationFilterConfigurer;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -52,14 +53,10 @@ public class SecurityConfiguration {
                         .requestMatchers(HttpMethod.GET,"/exercise/**").permitAll()
                         .requestMatchers("category/**").hasRole("USER")
                         .requestMatchers(HttpMethod.POST,"/exercise/**","/category/**").hasRole("ADMIN")
-                ).exceptionHandling(exceptionHandling -> exceptionHandling
-                        .authenticationEntryPoint((request, response, authException) ->
-                                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED)
-                        )
-                        .accessDeniedHandler((request, response, accessDeniedException) ->
-                                response.setStatus(HttpServletResponse.SC_FORBIDDEN)
-                        )
-                );
+                ).formLogin(form -> form
+                        .loginPage("/auth/login")
+                        .permitAll()
+                ).oauth2Login(Customizer.withDefaults());
         return http.build();
     }
 
@@ -73,5 +70,6 @@ public class SecurityConfiguration {
             "/auth/register",
             "/auth/login"
     };
+
 
 }
