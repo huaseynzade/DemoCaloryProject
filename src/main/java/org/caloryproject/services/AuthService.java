@@ -101,6 +101,8 @@ public class AuthService {
         }else{
             throw new InvalidActivationCode("Invalid Activation code try again");
         }
+
+        repository.save(user);
     }
 
 

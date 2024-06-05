@@ -54,7 +54,7 @@ public class SecurityConfiguration {
                         .requestMatchers("category/**").hasRole("USER")
                         .requestMatchers(HttpMethod.POST,"/exercise/**","/category/**").hasRole("ADMIN")
                 ).formLogin(form -> form
-                        .loginPage("/auth/login")
+                        .loginPage("/login")
                         .permitAll()
                 ).oauth2Login(Customizer.withDefaults());
         return http.build();
