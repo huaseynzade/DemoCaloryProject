@@ -26,8 +26,8 @@ public class ExerciseController {
 
 
     @GetMapping("/all")
-    public ResponseEntity<List<ExerciseDto>> findAllByCategory(@RequestParam(defaultValue = "1") Integer id, @RequestParam(defaultValue = "0") Integer page) {
-        return service.findAllByCategory(id, page);
+    public ResponseEntity<List<ExerciseDto>> findAllByCategory(@RequestParam(defaultValue = "1") Integer categoryId, @RequestParam(defaultValue = "0") Integer page) {
+        return service.findAllByCategory(categoryId, page);
     }
 
     @GetMapping("/equipment/{equipment}")

@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -16,6 +17,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.HttpStatusEntryPoint;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @EnableWebSecurity
@@ -24,7 +26,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfiguration {
     private final UserDetailsServiceImpl userDetailsServiceImpl;
     private final JwtAuthorizationFilter jwtAuthorizationFilter;
-
     @Bean
     public BCryptPasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder();
@@ -51,16 +52,11 @@ public class SecurityConfiguration {
                         .requestMatchers("/practice/**").hasRole("USER")
                         .requestMatchers("/user/**","/history/**").hasRole("USER")
                         .requestMatchers(HttpMethod.GET,"/exercise/**").permitAll()
-                        .requestMatchers("category/**").hasRole("USER")
+                        .requestMatchers(HttpMethod.GET,"category/**").permitAll()
                         .requestMatchers(HttpMethod.POST,"/exercise/**","/category/**").hasRole("ADMIN")
-                ).formLogin(form -> form
-                        .loginPage("/login")
-                        .permitAll()
-                ).oauth2Login(Customizer.withDefaults())
+                ).formLogin(Customizer.withDefaults())
+                .oauth2Login(Customizer.withDefaults())
                 .exceptionHandling(exceptionHandling -> exceptionHandling
-                        .authenticationEntryPoint((request, response, authException) ->
-                                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED)
-                        )
                         .accessDeniedHandler((request, response, accessDeniedException) ->
                                 response.setStatus(HttpServletResponse.SC_FORBIDDEN)
                         )

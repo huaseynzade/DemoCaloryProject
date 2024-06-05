@@ -15,6 +15,7 @@ public class UserResponseDto {
 
     private RoleEnum role;
 
+    private boolean isActivated;
 
     private double weight;
     private double height;

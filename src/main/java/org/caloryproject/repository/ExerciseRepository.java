@@ -13,7 +13,7 @@ import java.util.Optional;
 @Repository
 public interface ExerciseRepository extends CrudRepository<ExercisesEntity, Integer> {
     Page<ExercisesEntity> getAllByCategory(CategoryEntity category, Pageable pageable);
-    Optional<ExercisesEntity> findByNameIgnoreCase(String name);
+    Optional<ExercisesEntity> findByNameContainsIgnoreCase(String name);
 
     List<ExercisesEntity> findByEquipment(String equipment);
 

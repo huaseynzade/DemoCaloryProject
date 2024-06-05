@@ -18,11 +18,11 @@ public class PracticeController {
     }
 
     @GetMapping("/current-weight/")
-    public Double currentWeight(Integer calorieInTake, HttpServletRequest request){
+    public String currentWeight(Integer calorieInTake, HttpServletRequest request){
         return service.currentWeight(calorieInTake,request);
     }
 
-    @GetMapping("/total-calories/")
+    @GetMapping("/weekly/")
     public Double getTotalBurnCalories(HttpServletRequest request) {
         return service.getWeeklyBurnCalories(request);
     }

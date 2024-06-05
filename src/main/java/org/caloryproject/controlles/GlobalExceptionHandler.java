@@ -37,11 +37,8 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(ActivateException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ResponseEntity<String> handle(ActivateException exception){
+    public ResponseException handle(ActivateException exception){
         log.info("Error due to {}", exception.getMessage());
-        return ResponseEntity
-                .status(HttpStatus.UNAUTHORIZED)
-                .header("Content-Type", "application/json")
-                .body("{\"error\": \"" + exception.getMessage() + "\"}");
+        return new ResponseException(exception.getMessage());
     }
 }

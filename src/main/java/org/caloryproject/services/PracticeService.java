@@ -31,7 +31,7 @@ public class PracticeService {
 
     public void training(HttpServletRequest request, Integer exerciseId, Double duration){
         Integer userId = jwtService.getUserId(jwtService.resolveClaims(request));
-
+        log.info("PracticeService.training method is started for user {} and user did train {} for {} minutes", userId,exerciseId,duration);
         UserEntity user = userRepository.findById(userId).orElseThrow(() -> new NotFoundException("User Not Found"));
         if (!user.getIsActivated()){
             throw new ActivateException("Activate Your Account First");
@@ -46,11 +46,11 @@ public class PracticeService {
                 .exercise(exercise)
                 .duration(duration)
                 .build();
-
+        log.info("PracticeService.training method is finished for user {}", userId);
         historyRepository.save(history);
 
     }
-    public Double currentWeight(Integer calorieInTake, HttpServletRequest request){
+    public String currentWeight(Integer calorieInTake, HttpServletRequest request){
         Integer userId = jwtService.getUserId(jwtService.resolveClaims(request));
         UserEntity user = userRepository.findById(userId).orElseThrow(() -> new NotFoundException("User Not Found"));
         if (!user.getIsActivated()){
@@ -66,13 +66,16 @@ public class PracticeService {
             resultKg = (((user.getWeight() * 7700) - historyRepository.findTotalBurnCaloriesByUserIdAndCheckTime(user, user.getLastCheckTime())) + calorieInTake) / 7700;
         }
         user.setLastCheckTime(LocalDateTime.now());
+        String responseText = "Your weight changed from " + user.getWeight() + " to " + resultKg;
         user.setWeight(resultKg);
         userRepository.save(user);
-        return resultKg;
+        log.info("PracticeService.currentWeight is finished for user {}", userId);
+        return responseText;
     }
 
     public Double getWeeklyBurnCalories(HttpServletRequest request){
         Integer userId = jwtService.getUserId(jwtService.resolveClaims(request));
+        log.info("PracticeService.currentWeight is started for user {}", userId);
         UserEntity user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("You haven't exercised yet"));
         if (!user.getIsActivated()){
             throw new ActivateException("Activate Your Account First");
@@ -80,7 +83,7 @@ public class PracticeService {
         LocalDateTime date = LocalDateTime.now();
         LocalDateTime weekBefore = date.minusWeeks(1);
         Double burnedCalories = historyRepository.findWeeklyBurnCaloriesByUserId(user, weekBefore);
-        log.info(String.valueOf(burnedCalories));
+        log.info("PracticeService.currentWeight is finished for user {}", userId);
         return burnedCalories;
     }
 

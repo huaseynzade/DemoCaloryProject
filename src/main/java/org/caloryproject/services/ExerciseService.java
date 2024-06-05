@@ -5,6 +5,7 @@ import org.caloryproject.dto.ExerciseDto;
 import org.caloryproject.dto.ReturnPage;
 import org.caloryproject.entity.CategoryEntity;
 import org.caloryproject.entity.ExercisesEntity;
+import org.caloryproject.exceptions.NotFoundException;
 import org.caloryproject.map.ExerciseMap;
 import org.caloryproject.repository.CategoryRepository;
 import org.caloryproject.repository.ExerciseRepository;
@@ -38,7 +39,7 @@ public class ExerciseService {
     }
 
     public ExerciseDto getExerciseByName(String name){
-        ExercisesEntity entity = repository.findByNameIgnoreCase(name).orElseThrow(() -> new RuntimeException("Workout not found"));
+        ExercisesEntity entity = repository.findByNameContainsIgnoreCase(name).orElseThrow(() -> new NotFoundException("Workout not found"));
         return map.toDto(entity);
     }
 
