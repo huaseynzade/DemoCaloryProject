@@ -17,8 +17,8 @@ public interface HistoryRepository extends CrudRepository<UserHistoryEntity,Inte
 
     @Query("SELECT SUM(u.burnedCalories) FROM UserHistoryEntity u WHERE u.user = :user and u.time > :lastTime")
     Double findTotalBurnCaloriesByUserIdAndCheckTime(UserEntity user, LocalDateTime lastTime);
-    @Query("SELECT SUM(u.burnedCalories) FROM UserHistoryEntity u WHERE u.user = :user and u.time < :date")
-    Double findWeeklyBurnCaloriesByUserId(UserEntity user, LocalDate date);
+    @Query("SELECT SUM(u.burnedCalories) FROM UserHistoryEntity u WHERE u.user = :user and u.time > :date")
+    Double findWeeklyBurnCaloriesByUserId(UserEntity user, LocalDateTime date);
 
 
 

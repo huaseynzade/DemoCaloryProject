@@ -77,9 +77,11 @@ public class PracticeService {
         if (!user.getIsActivated()){
             throw new ActivateException("Activate Your Account First");
         }
-        LocalDate date = LocalDate.now();
-        LocalDate weekBefore = date.minusWeeks(1);
-        return historyRepository.findWeeklyBurnCaloriesByUserId(user, weekBefore);
+        LocalDateTime date = LocalDateTime.now();
+        LocalDateTime weekBefore = date.minusWeeks(1);
+        Double burnedCalories = historyRepository.findWeeklyBurnCaloriesByUserId(user, weekBefore);
+        log.info(String.valueOf(burnedCalories));
+        return burnedCalories;
     }
 
 }

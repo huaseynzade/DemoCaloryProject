@@ -15,6 +15,7 @@ import java.time.LocalDateTime;
 @Data
 @Builder
 @AllArgsConstructor
+@NoArgsConstructor
 public class UserHistoryEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

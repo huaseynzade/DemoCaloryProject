@@ -56,7 +56,15 @@ public class SecurityConfiguration {
                 ).formLogin(form -> form
                         .loginPage("/login")
                         .permitAll()
-                ).oauth2Login(Customizer.withDefaults());
+                ).oauth2Login(Customizer.withDefaults())
+                .exceptionHandling(exceptionHandling -> exceptionHandling
+                        .authenticationEntryPoint((request, response, authException) ->
+                                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED)
+                        )
+                        .accessDeniedHandler((request, response, accessDeniedException) ->
+                                response.setStatus(HttpServletResponse.SC_FORBIDDEN)
+                        )
+                );
         return http.build();
     }
 
